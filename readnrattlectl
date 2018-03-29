@@ -1,0 +1,13 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Mar 29 14:54:14 2018
+
+@author: mpontr01
+"""
+def replace_line(file_name, line_num, text):
+    lines = open(file_name, 'r').readlines()
+    lines[line_num] = text
+    out = open(file_name, 'w')
+    out.writelines(lines)
+    out.close()
+    
