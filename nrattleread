@@ -1,0 +1,50 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 28 16:58:38 2018
+
+@author: mpontr01
+"""
+
+import subprocess as sb
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+
+FORTRANNRATTLE='C:\Users\mpontr01\Box Sync\Spring_2018\Water_Resource_Systems\Homework\Final_Project\NRATTLE.exe'
+nrattlectl='C:\\Users\\mpontr01\\Box Sync\\Spring_2018\\Water_Resource_Systems\\Homework\\Final_Project\\nrattle.ctl'
+ampsout='C:\\Users\\mpontr01\\Box Sync\\Spring_2018\\Water_Resource_Systems\\Homework\\Final_Project\\test_nrattle_02mar11.nrattle_amps4plot.out'
+
+ 
+#h_space_Vs_list=np.linspace(1750,2250,num=100) #Halfspace Vs
+#for i in range(len(h_space_Vs_list)):
+#    value=str(h_space_Vs_list[i])
+#    repin='    '+value+'  2.80 \n'
+#    print repin
+#    replace_line(nrattlectl,22, repin)        
+#    a=open(nrattlectl)
+#    sb.Popen(FORTRANNRATTLE,stdin=a)#, stdout=outfile,shell=True)
+#    a.close
+#    saveamps=np.loadtxt(ampsout,skiprows=19)
+#    freq=saveamps[:,0]
+#    amps=saveamps[:,2]
+#    plt.plot(freq,amps)
+ 
+Layer_1_Vs_list=np.linspace(100,200,num=6) #first layer Vs
+for i in range(len(Layer_1_Vs_list)):
+    value=str(Layer_1_Vs_list[i])
+    repin='    1   20.0   '+value+'   1.9   0.00 \n'
+    replace_line(nrattlectl,17, repin)  
+    time.sleep(10)      
+    a=open(nrattlectl)
+    sb.Popen(FORTRANNRATTLE,stdin=a)#, stdout=outfile,shell=True)
+    a.close
+    time.sleep(10)
+    saveamps=np.loadtxt(ampsout,skiprows=19)
+    freq=saveamps[:,0]
+    amps=saveamps[:,2]
+    plt.plot(freq,amps)
+plt.title('Varying Vs layer 1')
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Amplitude')
+plt.grid()
+plt.savefig('Testplot.pdf')
